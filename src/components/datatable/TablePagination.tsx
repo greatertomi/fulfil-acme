@@ -1,5 +1,5 @@
-import React, { FC, useEffect, useMemo, useState } from "react";
-import { Pagination } from "react-bootstrap";
+import React, { FC, useEffect, useMemo, useState } from 'react';
+import { Pagination } from 'react-bootstrap';
 
 interface TablePaginationProps {
   total?: number;
@@ -25,7 +25,7 @@ const TablePagination: FC<TablePaginationProps> = ({
   const paginationItems = useMemo(() => {
     const pages = [];
 
-    for (let i = 1; i <= totalPages; i++) {
+    for (let i = 1; i <= totalPages; i += 1) {
       pages.push(
         <Pagination.Item
           key={i}
