@@ -1,59 +1,79 @@
-import React, { FC, useEffect, useMemo, useState } from 'react';
-import { Pagination } from 'react-bootstrap';
+import classNames from 'classnames';
+import React, { FC } from 'react';
+import { usePagination } from '../../hooks/usePagination';
+import { PaginationContainer } from './PaginationStyle';
 
-interface TablePaginationProps {
-  total?: number;
-  itemsPerPage?: number;
-  currentPage?: number;
-  onPageChange: (page: number) => void;
+interface NewTablePaginationProps {
+  totalCount: number;
+  siblingCount?: number;
+  pageSize: number;
+  currentPage: number;
+  onPageChange: (page: number | string) => void;
 }
 
-const TablePagination: FC<TablePaginationProps> = ({
-  total = 0,
-  itemsPerPage = 10,
-  currentPage = 1,
+const TablePagination: FC<NewTablePaginationProps> = ({
   onPageChange,
+  pageSize,
+  currentPage,
+  siblingCount = 1,
+  totalCount,
 }) => {
-  const [totalPages, setTotalPages] = useState(0);
+  const paginationRange =
+    usePagination({
+      totalCount,
+      pageSize,
+      siblingCount,
+      currentPage,
+    }) || [];
 
-  useEffect(() => {
-    if (total > 0 && itemsPerPage > 0) {
-      setTotalPages(Math.ceil(total / itemsPerPage));
-    }
-  }, [itemsPerPage, total]);
+  if (currentPage === 0 || paginationRange.length < 2) {
+    return null;
+  }
 
-  const paginationItems = useMemo(() => {
-    const pages = [];
+  const onNext = () => {
+    onPageChange(currentPage + 1);
+  };
 
-    for (let i = 1; i <= totalPages; i += 1) {
-      pages.push(
-        <Pagination.Item
-          key={i}
-          active={i === currentPage}
-          onClick={() => onPageChange}
-        >
-          {i}
-        </Pagination.Item>
-      );
-    }
+  const onPrevious = () => {
+    onPageChange(currentPage - 1);
+  };
 
-    return pages;
-  }, [totalPages, currentPage, onPageChange]);
-
-  if (totalPages === 0) return null;
+  const lastPage = paginationRange[paginationRange.length - 1];
 
   return (
-    <Pagination>
-      <Pagination.Prev
-        onClick={() => onPageChange(currentPage - 1)}
-        disabled={currentPage === 1}
-      />
-      {paginationItems}
-      <Pagination.Next
-        onClick={() => onPageChange(currentPage - 1)}
-        disabled={currentPage === 1}
-      />
-    </Pagination>
+    <PaginationContainer>
+      <li
+        className={classNames('pagination-item', {
+          disabled: currentPage === 1,
+        })}
+        onClick={onPrevious}
+      >
+        <div className="arrow left" />
+      </li>
+      {paginationRange.map((pageNumber) => {
+        if (pageNumber === 'DOTS') {
+          return <li className="pagination-item dots">&#8230;</li>;
+        }
+        return (
+          <li
+            className={classNames('pagination-item', {
+              selected: pageNumber === currentPage,
+            })}
+            onClick={() => onPageChange(pageNumber)}
+          >
+            {pageNumber}
+          </li>
+        );
+      })}
+      <li
+        className={classNames('pagination-item', {
+          disabled: currentPage === lastPage,
+        })}
+        onClick={onNext}
+      >
+        <div className="arrow right" />
+      </li>
+    </PaginationContainer>
   );
 };
 

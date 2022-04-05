@@ -50,7 +50,9 @@
         "react/require-default-props": "off",
         "react/jsx-one-expression-per-line": "off",
         "operator-linebreak": "off",
-        "indent": "off"
+        "indent": "off",
+        "consistent-return": "off",
+        "jsx-a11y/no-noninteractive-element-interactions": "off"
     },
     "settings": {
         "import/resolver": {

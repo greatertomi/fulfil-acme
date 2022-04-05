@@ -1,6 +1,8 @@
 import axios from 'axios';
 import React, { useEffect, useMemo, useState } from 'react';
-import { Search, TableHeading, TablePagination } from '../components/datatable';
+import { Table } from 'react-bootstrap';
+import { Search, TableHeading } from '../components/datatable';
+import TablePagination from '../components/datatable/TablePagination';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { DataHeader, Photo } from '../types/data';
 
@@ -65,10 +67,10 @@ const DataTablePage = () => {
         <div className="row">
           <div className="col-md-6">
             <TablePagination
-              total={totalItems}
-              itemsPerPage={ITEMS_PER_PAGE}
+              totalCount={totalItems}
+              pageSize={ITEMS_PER_PAGE}
               currentPage={currentPage}
-              onPageChange={(page) => setCurrentPage(page)}
+              onPageChange={(page) => setCurrentPage(page as any)}
             />
           </div>
           <div className="col-md-6 d-flex flex-row-reverse">
@@ -80,7 +82,7 @@ const DataTablePage = () => {
             />
           </div>
         </div>
-        <table>
+        <Table striped>
           <TableHeading
             headers={headers}
             onSorting={(field, order) => setSorting({ field, order })}
@@ -97,7 +99,7 @@ const DataTablePage = () => {
               </tr>
             ))}
           </tbody>
-        </table>
+        </Table>
       </div>
     </div>
   );
