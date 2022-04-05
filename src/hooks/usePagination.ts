@@ -5,8 +5,6 @@ const range = (start: number, end: number) => {
   return Array.from({ length }, (_, idx) => idx + start);
 };
 
-// const DOTS = '...';
-
 type usePaginationType = {
   totalCount: number;
   pageSize: number;
@@ -20,7 +18,7 @@ export const usePagination = ({
   siblingCount = 1,
   currentPage,
 }: usePaginationType) => {
-  const paginationRange = useMemo(() => {
+  return useMemo(() => {
     const totalPageCount = Math.ceil(totalCount / pageSize);
     const totalPageNumbers = siblingCount + 5;
     if (totalPageNumbers > totalPageCount) {
@@ -59,6 +57,4 @@ export const usePagination = ({
       return [firstPageIndex, 'DOTS', ...middleRange, 'DOTS', lastPageIndex];
     }
   }, [totalCount, pageSize, siblingCount, currentPage]);
-
-  return paginationRange;
 };
