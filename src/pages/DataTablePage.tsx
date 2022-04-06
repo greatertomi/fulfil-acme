@@ -21,7 +21,7 @@ const DataTablePage = () => {
   const ITEMS_PER_PAGE = 50;
 
   const headers: DataHeader[] = [
-    { name: 'No', field: 'id', sortable: false },
+    { name: 'No', field: 'id', sortable: true },
     { name: 'Title', field: 'title', sortable: true },
     { name: 'Url', field: 'url', sortable: false },
     { name: 'Thumbnail', field: 'thumbnailUrl', sortable: false },
