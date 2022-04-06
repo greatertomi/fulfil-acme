@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/fulfil-acme/static/css/main.e7720ab7.css",
+    "main.js": "/fulfil-acme/static/js/main.eefbaf1a.js",
+    "index.html": "/fulfil-acme/index.html",
+    "main.e7720ab7.css.map": "/fulfil-acme/static/css/main.e7720ab7.css.map",
+    "main.eefbaf1a.js.map": "/fulfil-acme/static/js/main.eefbaf1a.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.e7720ab7.css",
+    "static/js/main.eefbaf1a.js"
+  ]
+}
