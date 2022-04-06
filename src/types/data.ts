@@ -4,6 +4,7 @@ export type DataHeader = {
   sortable?: boolean;
   numeric?: boolean;
   width?: string;
+  isImage?: boolean;
 };
 
 export type Photo = {

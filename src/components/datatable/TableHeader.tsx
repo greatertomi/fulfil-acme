@@ -5,9 +5,16 @@ import { DataHeader } from '../../types/data';
 interface TableHeaderProps {
   headers: DataHeader[];
   onSorting: (field: string, order: string) => void;
+  onClickCheckbox?: () => void;
+  isChecked?: boolean;
 }
 
-const TableHeader: FC<TableHeaderProps> = ({ headers, onSorting }) => {
+const TableHeader: FC<TableHeaderProps> = ({
+  headers,
+  onSorting,
+  isChecked,
+  onClickCheckbox,
+}) => {
   const [sortingField, setSortingField] = useState('');
   const [sortingOrder, setSortingOrder] = useState('asc');
 
@@ -22,6 +29,14 @@ const TableHeader: FC<TableHeaderProps> = ({ headers, onSorting }) => {
   return (
     <thead>
       <tr>
+        <th>
+          <input
+            type="checkbox"
+            name="check"
+            checked={isChecked}
+            onChange={onClickCheckbox}
+          />
+        </th>
         {headers.map(({ name, field, sortable, width }) => (
           <th
             key={name}
@@ -29,13 +44,13 @@ const TableHeader: FC<TableHeaderProps> = ({ headers, onSorting }) => {
             style={{ cursor: 'pointer', width }}
           >
             {name}
-            {sortingField &&
-            sortingField === field &&
-            sortingOrder === 'asc' ? (
-              <BsArrowDownShort />
-            ) : (
-              <BsArrowUpShort />
-            )}
+            {sortingField && sortingField === field && sortable ? (
+              sortingOrder === 'asc' ? (
+                <BsArrowDownShort />
+              ) : (
+                <BsArrowUpShort />
+              )
+            ) : null}
           </th>
         ))}
       </tr>

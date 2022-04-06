@@ -17,15 +17,23 @@ const DataTablePage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [search, setSearch] = useState('');
   const [sorting, setSorting] = useState({ field: '', order: '' });
+  const [isCheckAll, setIsCheckAll] = useState(false);
 
   const ITEMS_PER_PAGE = 50;
 
   const headers: DataHeader[] = [
-    { name: 'No', field: 'id', sortable: true },
+    { name: 'No', field: 'id', sortable: false },
     { name: 'Title', field: 'title', sortable: true },
-    { name: 'Url', field: 'url', sortable: false },
-    { name: 'Thumbnail', field: 'thumbnailUrl', sortable: false },
+    { name: 'Url', field: 'url', sortable: false, isImage: true },
+    {
+      name: 'Thumbnail',
+      field: 'thumbnailUrl',
+      sortable: false,
+      isImage: true,
+    },
   ];
+
+  const handleCheckAll = () => setIsCheckAll(!isCheckAll);
 
   useEffect(() => {
     const getData = async () => {
@@ -52,11 +60,12 @@ const DataTablePage = () => {
 
     if (sorting.field) {
       const reversed = sorting.order === 'asc' ? 1 : -1;
-      computedPhotos = computedPhotos.sort(
-        (a, b) =>
+      computedPhotos = computedPhotos.sort((a, b) => {
+        return (
           reversed *
           (a as any)[sorting.field].localeCompare((b as any)[sorting.field])
-      );
+        );
+      });
     }
 
     return computedPhotos.slice(
@@ -90,10 +99,24 @@ const DataTablePage = () => {
           <TableHeader
             headers={headers}
             onSorting={(field, order) => setSorting({ field, order })}
+            isChecked={isCheckAll}
+            onClickCheckbox={handleCheckAll}
           />
           <tbody>
+            {photoData.length === 0 && (
+              <tr>
+                <td colSpan={5} className="text-center">
+                  No data
+                </td>
+              </tr>
+            )}
             {photoData.map((data) => (
-              <TableBody data={data} header={headers} />
+              <TableBody
+                key={data.id}
+                data={data}
+                header={headers}
+                isChecked={isCheckAll}
+              />
             ))}
           </tbody>
         </Table>
@@ -103,7 +126,7 @@ const DataTablePage = () => {
 
   return (
     <>
-      <h5>Data Table</h5>
+      <h2 className="my-3 text-center">Acme Data Table</h2>
       {loading ? <LoadingSpinner /> : renderDataTable()}
     </>
   );
