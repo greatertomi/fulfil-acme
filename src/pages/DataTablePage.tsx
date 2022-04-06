@@ -1,8 +1,12 @@
 import axios from 'axios';
 import React, { useEffect, useMemo, useState } from 'react';
 import { Table } from 'react-bootstrap';
-import { Search, TableHeading } from '../components/datatable';
-import TablePagination from '../components/datatable/TablePagination';
+import {
+  Search,
+  TableBody,
+  TableHeader,
+  TablePagination,
+} from '../components/datatable';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { DataHeader, Photo } from '../types/data';
 
@@ -83,20 +87,13 @@ const DataTablePage = () => {
           </div>
         </div>
         <Table striped>
-          <TableHeading
+          <TableHeader
             headers={headers}
             onSorting={(field, order) => setSorting({ field, order })}
           />
           <tbody>
-            {photoData.map(({ id, title, url, thumbnailUrl }) => (
-              <tr>
-                <th scope="row" key={id}>
-                  {id}
-                </th>
-                <td>{title}</td>
-                <td>{url}</td>
-                <td>{thumbnailUrl}</td>
-              </tr>
+            {photoData.map((data) => (
+              <TableBody data={data} header={headers} />
             ))}
           </tbody>
         </Table>

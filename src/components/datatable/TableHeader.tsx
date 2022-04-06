@@ -22,11 +22,11 @@ const TableHeader: FC<TableHeaderProps> = ({ headers, onSorting }) => {
   return (
     <thead>
       <tr>
-        {headers.map(({ name, field, sortable }) => (
+        {headers.map(({ name, field, sortable, width }) => (
           <th
             key={name}
             onClick={() => (sortable ? onSortingChange(field) : null)}
-            style={{ cursor: 'pointer' }}
+            style={{ cursor: 'pointer', width }}
           >
             {name}
             {sortingField &&
